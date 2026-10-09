@@ -61,6 +61,10 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
 .foot{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 20px;font-size:13px;color:var(--muted);display:grid;gap:8px}
 .foot b{color:var(--fg)}
 [role="tabpanel"][hidden]{display:none!important}
+.citem{border:1px solid var(--line);border-radius:6px;padding:12px;display:grid;gap:10px;background:var(--bg)}
+.citem .cm{font-size:13px;color:var(--muted)}
+.citem .cm b{color:var(--fg)}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px}
 </style>
 </head>
 <body>
@@ -241,22 +245,10 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
   <label class="chk" for="n-68"><input id="n-68" type="checkbox"><span>Рецидив: судимость не погашена, новое умышленное преступление (ч. 2 ст. 68: не менее 1/3 максимума)</span></label>
   <hr>
   <h2>Совокупность преступлений (ст. 69)</h2>
-  <label for="n-cat">Состав совокупности
-    <select id="n-cat">
-      <option value="2">Все преступления небольшой, средней тяжести, приготовление или покушение (ч. 2 ст. 69)</option>
-      <option value="3">Есть тяжкое или особо тяжкое (ч. 3 ст. 69)</option>
-    </select>
-  </label>
-  <div class="lbl">Наказания в виде лишения свободы за отдельные преступления</div>
-  <div class="row3">
-    <label for="c1">№ 1, мес.<input id="c1" type="number" min="0" value="30"></label>
-    <label for="c2">№ 2, мес.<input id="c2" type="number" min="0" value="18"></label>
-    <label for="c3">№ 3, мес.<input id="c3" type="number" min="0" value="0"></label>
-  </div>
-  <label for="c-max">Максимум за наиболее тяжкое, месяцев
-    <input id="c-max" type="number" min="0" value="60">
-    <span class="hint">С учётом ст. 62, 65, 66, если они применялись: верхний предел становится максимальным размером для других правил (п. 34 Пленума ВС № 58).</span>
-  </label>
+  <div class="lbl">Составы в совокупности</div>
+  <span class="hint">Настройте выше пределы одного состава (статья, стадия, обстоятельства) и нажмите «Добавить состав». Затем так же добавьте остальные. Для каждого введите назначенное наказание в виде лишения свободы.</span>
+  <div id="c-items"></div>
+  <div class="btnrow"><button type="button" class="act ghost" id="c-add">Добавить состав в совокупность</button><button type="button" class="act ghost" id="c-clear">Очистить список</button></div>
   <label for="n-lim">Предел срока по совокупности (ст. 56)
     <select id="n-lim"><option value="25">25 лет: общий предел по совокупности преступлений (ч. 4 ст. 56)</option><option value="30">30 лет: преступления из перечня ч. 5 ст. 56</option></select>
   </label>
@@ -270,7 +262,6 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
     <label for="p-rest">Неотбытая часть по прежнему приговору, мес.<input id="p-rest" type="number" min="0" value="0"></label>
     <label for="p-new">Наказание по новому приговору, мес.<input id="p-new" type="number" min="0" value="0"></label>
   </div>
-  <button type="button" class="act ghost" id="c-fill">Взять верхний предел из расчёта выше</button>
 </div>
 <div class="panel" aria-live="polite">
   <h2>Результат</h2>
@@ -292,7 +283,7 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
     <li>Ч. 2 ст. 68 считается от максимума санкции, как в примере п. 34 Пленума № 58. Ч. 3 ст. 68 разрешает назначить ниже 1/3 при смягчающих обстоятельствах, а при исключительных ещё мягче по ст. 64.</li>
     <li>Если отмечены несколько ограничений по ст. 62 и 65, берётся наименьшая доля. П. 34 Пленума № 58 допускает применение правил ст. 62, 65, 66 и 68 «как в отдельности, так и одновременно», но порядок расчёта при одновременном применении ч. 1 и ч. 5 ст. 62 в тексте Пленума прямо не указан (проверено 09.10.2026). Практика судов может исчислять предел последовательно (две трети от двух третей): сверяйте с практикой своего суда.</li>
     <li>Ч. 3 и 4 ст. 62, ч. 4 ст. 66: пожизненное и смертная казнь не назначаются. Правила не распространяются на менее строгие виды и на дополнительные наказания (п. 33 Пленума № 58).</li>
-    <li>Ст. 69: итог не выше максимума за наиболее тяжкое более чем наполовину, то есть до 1,5 максимума, и не выше предела ст. 56: 25 лет по совокупности преступлений, 30 лет для перечня ч. 5 ст. 56 (по совокупности приговоров по ст. 70: до 30 лет, для перечня ч. 5 ст. 56 до 35 лет). Поглощение возможно только по ч. 2 ст. 69. По ст. 70 окончательное наказание должно быть больше как неотбытой части, так и нового наказания (ч. 4 ст. 70), поэтому поглощение там невозможно. Перевод разных видов наказаний по ст. 71 в расчёте не ведётся.</li>
+    <li>Ст. 69: итог не выше максимума за наиболее тяжкое более чем наполовину, то есть до 1,5 максимума (максимум берётся без учёта ст. 62 и 65, п. 51 Пленума № 58; если все преступления неоконченные — по правилам ст. 66, п. 50; если применялась ч. 6 ст. 15, категория берётся изменённая, п. 51(1)), и не выше предела ст. 56: 25 лет по совокупности преступлений, 30 лет для перечня ч. 5 ст. 56 (по совокупности приговоров по ст. 70: до 30 лет, для перечня ч. 5 ст. 56 до 35 лет). Поглощение возможно только по ч. 2 ст. 69. По ст. 70 окончательное наказание должно быть больше как неотбытой части, так и нового наказания (ч. 4 ст. 70), поэтому поглощение там невозможно. Перевод разных видов наказаний по ст. 71 в расчёте не ведётся.</li>
   </ul>
 </div>
 </section>
@@ -550,7 +541,7 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
 
 <div class="foot">
   <div><b>Нормативная база (редакции на 08.10.2026 по КонсультантПлюс).</b> Уголовный кодекс РФ от 13.06.1996 № 63-ФЗ (ред. от 04.08.2026): ст. 15, 56, 62, 65, 66, 68–72, 73, 74, 75, 76, 76.1, 76.2, 78, 78.1, 79, 80, 80.2, 83, 86, 93–95, 104.4, 104.5. Уголовно-процессуальный кодекс РФ от 18.12.2001 № 174-ФЗ (ред. от 26.07.2026): ст. 24, 25, 25.1, 27, 28, 28.1, 105.1, 109, 208, 314–316. Уголовно-исполнительный кодекс РФ (ред. от 23.03.2026): ст. 175. ФЗ от 28.03.1998 № 53-ФЗ «О воинской обязанности и военной службе»: п. 1 ст. 51.</div>
-  <div><b>Судебная практика.</b> Постановление Пленума ВС РФ от 22.12.2015 № 58 «О практике назначения судами уголовного наказания» (ред. от 23.12.2025 № 40), п. 33–35. Постановление Пленума ВС РФ от 21.04.2009 № 8 «О судебной практике по делам об УДО, о замене неотбытой части наказания более мягким видом наказания», п. 1–2. Постановление Пленума ВС РФ от 27.06.2013 № 19 «О применении судами законодательства, регламентирующего основания и порядок освобождения от уголовной ответственности», п. 17–20. Постановление КС РФ от 18.07.2022 № 33-П. Постановление КС РФ от 17.12.2025 № 46-П.</div>
+  <div><b>Судебная практика.</b> Постановление Пленума ВС РФ от 22.12.2015 № 58 «О практике назначения судами уголовного наказания» (ред. от 23.12.2025 № 40), п. 33–35, 50–52. Постановление Пленума ВС РФ от 21.04.2009 № 8 «О судебной практике по делам об УДО, о замене неотбытой части наказания более мягким видом наказания», п. 1–2. Постановление Пленума ВС РФ от 27.06.2013 № 19 «О применении судами законодательства, регламентирующего основания и порядок освобождения от уголовной ответственности», п. 17–20. Постановление КС РФ от 18.07.2022 № 33-П. Постановление КС РФ от 17.12.2025 № 46-П.</div>
   <div><b>Справочник санкций.</b> Пределы лишения свободы по статьям и частям (78 ходовых статей) извлечены из текста Особенной части УК РФ (КонсультантПлюс, ред. от 04.08.2026) и 09.10.2026 повторно сверены по тексту на rulaws.ru (редакция кодекса от 04.08.2026): расхождений не найдено; три части ст. 109 подтверждены только по пересказу. Перед использованием в документах сверьте предел с текстом санкции: статья может содержать иные виды наказаний, в том числе более мягкие.</div>
   <div><b>Ограничения расчёта.</b> Законодательство и практика меняются: перед подачей документов проверьте редакцию норм на дату решения. Не учтены: нормы УИК РФ о порядке рассмотрения ходатайств (кроме ст. 175), разъяснения ВС РФ по ст. 78.1 и 80.2 УК РФ (отдельных не найдено), влияние службы на давность, расчёт предела при совместном применении ч. 1 и ч. 5 ст. 62 УК РФ (прямого правила в действующем Пленуме № 58 нет). Для вкладок «Прекращение дела», «Порядок рассмотрения» и «Условное осуждение» не разбирались: толкование признака «впервые», ст. 28.1 УПК и ст. 76.1 УК в части ч. 3, гл. 40.1 УПК, Постановление Пленума ВС РФ от 25.06.2024 № 18 об отмене условного осуждения, раздел Пленума № 58 об условном осуждении. Часть срока при УДО и замене считается по календарным месяцам, дробный остаток по 30 дней на месяц: сверяйте с справкой колонии.</div>
   <div><b>Дисклеймер.</b> Калькулятор является справочным инструментом и не заменяет справку об исчислении срока, решение суда и правовую оценку по конкретному делу. Результат расчёта не является юридической консультацией. Окончательное решение принимает суд.</div>
@@ -690,7 +681,36 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
 
   /* ---------- Наказание ---------- */
   var lastUpper=null,cTouched=false;
-  ['c1','c2','c3','c-max','n-final','p-rest','p-new','n-method','n-cat','n-lim'].forEach(function(id){var e=$(id);if(e)['input','change'].forEach(function(t){e.addEventListener(t,function(){cTouched=true})})});
+  var items=[];
+  var CATRU={small:'небольшой тяжести',medium:'средней тяжести',grave:'тяжкое',special:'особо тяжкое'},CATRANK={small:1,medium:2,grave:3,special:4};
+  function catKey(hi){return hi<=36?'small':(hi<=60?'medium':(hi<=120?'grave':'special'))}
+  function sfOf(st){return st==='1'?1:(st==='1/2'?.5:.75)}
+  function effCat(x){return x.catSel&&x.catSel!=='auto'?x.catSel:x.cat}
+  function stageRu(st){return st==='1'?'оконченное':(st==='1/2'?'приготовление':'покушение')}
+  function itemLabel(x){return x.art?'ст. '+x.art:'без статьи'}
+  function renderItems(){
+    var box=$('c-items');
+    box.style.display='grid';box.style.gap='10px';
+    box.innerHTML=items.map(function(x,i){
+      var opts=[['auto','по санкции ('+CATRU[x.cat]+')'],['small','небольшой тяжести'],['medium','средней тяжести'],['grave','тяжкое']].map(function(o){return '<option value="'+o[0]+'"'+(x.catSel===o[0]?' selected':'')+'>'+o[1]+'</option>'}).join('');
+      return '<div class="citem" data-i="'+i+'"><div class="cm"><b>№ '+(i+1)+'. '+itemLabel(x)+'</b> · '+CATRU[effCat(x)]+' · '+stageRu(x.stage)+' · санкция до '+termStrG(x.maxM)+(x.cap?' · верхний предел '+termStrG(x.cap):'')+'</div>'
+        +'<div class="row2"><label>Назначено, мес.<input type="number" min="0" data-k="pun" value="'+(x.pun||'')+'"></label>'
+        +'<label>Категория по ч. 6 ст. 15<select data-k="cat">'+opts+'</select></label></div>'
+        +'<button type="button" class="act ghost" data-del="'+i+'">Удалить состав</button></div>'}).join('');
+  }
+  $('c-items').addEventListener('input',function(e){var t=e.target,c=t.closest('.citem');if(!c)return;var x=items[+c.getAttribute('data-i')];if(t.getAttribute('data-k')==='pun'){x.pun=parseFloat(t.value)||0;cTouched=true;calcN()}});
+  $('c-items').addEventListener('change',function(e){var t=e.target,c=t.closest('.citem');if(!c)return;var x=items[+c.getAttribute('data-i')];if(t.getAttribute('data-k')==='cat'){x.catSel=t.value;cTouched=true;renderItems();calcN()}});
+  $('c-items').addEventListener('click',function(e){var d=e.target.getAttribute&&e.target.getAttribute('data-del');if(d===null||d===undefined)return;items.splice(+d,1);renderItems();calcN()});
+  $('c-add').addEventListener('click',function(){
+    var maxM=num('n-maxY')*12+num('n-maxM');
+    if(!maxM){$('c-main').textContent='Сначала введите высший предел санкции выше.';return}
+    var ai=window.__artInfo;
+    items.push({art:ai?ai.art+' ч. '+ai.part:'',cat:catKey(maxM),catSel:'auto',stage:$('n-stage').value,maxM:maxM,cap:lastUpper,pun:0});
+    cTouched=true;renderItems();calcN();
+  });
+  $('c-clear').addEventListener('click',function(){items=[];renderItems();calcN()});
+
+  ['n-final','p-rest','p-new','n-method','n-lim'].forEach(function(id){var e=$(id);if(e)['input','change'].forEach(function(t){e.addEventListener(t,function(){cTouched=true})})});
   function calcN(){
     var minM=num('n-minY')*12+num('n-minM'),maxM=num('n-maxY')*12+num('n-maxM');
     var warns=[],rows=[],steps=[],defMin=false;
@@ -734,21 +754,29 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
     $('n-steps').innerHTML=steps.map(function(x){return '<li>'+x+'</li>'}).join('');
     var base='Расчёт пределов наказания (справочный)\nСтатья: '+(ai?'ст. '+ai.art+' ч. '+ai.part+' УК РФ, '+ai.cat:'не выбрана (пределы введены вручную)')+'\nХод расчёта:\n'+steps.map(function(x,i){return (i+1)+') '+x}).join('\n');
     // совокупность
-    if(!cTouched){texts.n=base;$('c-main').textContent='Введите свои наказания, чтобы посчитать совокупность. В полях сейчас пример.';$('c-list').innerHTML='';$('p-main').textContent='';$('p-list').innerHTML='';return}
-    var cs=[num('c1'),num('c2'),num('c3')].filter(function(v){return v>0});
-    var cmax=num('c-max');
-    if(cs.length<2||!cmax){$('c-main').textContent='Введите не менее двух наказаний и максимум.';$('c-list').innerHTML='';texts.n=base;return}
-    var sum=cs.reduce(function(a,b){return a+b},0),big=Math.max.apply(null,cs),capc=cmax*1.5,limM=+$('n-lim').value*12,top=Math.min(sum,capc,limM);
-    var part=$('n-cat').value==='2'?'ч. 2 ст. 69':'ч. 3 ст. 69';
-    var lowtxt=$('n-cat').value==='2'?('от '+termStrG(big)+' (поглощение) до '+termStrG(top)):('более '+termStrG(big)+' до '+termStrG(top)+' (только сложение)');
+    if(!cTouched){texts.n=base;$('c-main').textContent='Добавьте не менее двух составов, чтобы посчитать совокупность.';$('c-list').innerHTML='';$('p-main').textContent='';$('p-list').innerHTML='';return}
+    var cs=items.map(function(x){return x.pun});
+    if(items.length<2||cs.some(function(v){return !(v>0)})){$('c-main').textContent=items.length<2?'Добавьте не менее двух составов.':'Введите назначенное наказание для каждого состава.';$('c-list').innerHTML='';texts.n=base;return}
+    var allInc=items.every(function(x){return x.stage!=='1'});
+    var graveFull=items.some(function(x){return x.stage==='1'&&CATRANK[effCat(x)]>=3});
+    var baseItem=null,baseM=0;
+    items.forEach(function(x){
+      var v=allInc?x.maxM*sfOf(x.stage):x.maxM,r=allInc?0:CATRANK[effCat(x)];
+      if(baseItem===null||r>baseItem.r||(r===baseItem.r&&v>baseM)){baseItem={x:x,r:r};baseM=v}
+    });
+    var sum=cs.reduce(function(a,b){return a+b},0),big=Math.max.apply(null,cs),capc=baseM*1.5,limM=+$('n-lim').value*12,top=Math.min(sum,capc,limM);
+    var part=graveFull?'ч. 3 ст. 69':'ч. 2 ст. 69';
+    var lowtxt=!graveFull?('от '+termStrG(big)+' (поглощение) до '+termStrG(top)):('более '+termStrG(big)+' до '+termStrG(top)+' (только сложение)');
     if(top<big)lowtxt='—';
     if(limM<Math.min(sum,capc))lowtxt+=' (ограничено пределом ст. 56)';
     $('c-main').textContent=lowtxt;
-    $('c-list').innerHTML='<dt>Сумма наказаний</dt><dd>'+termStr(sum)+'</dd><dt>Наиболее строгое</dt><dd>'+termStr(big)+'</dd><dt>Предел: 1,5 максимума</dt><dd>'+termStr(capc)+'</dd><dt>Предел по ст. 56</dt><dd>'+termStr(limM)+'</dd><dt>Норма</dt><dd>'+part+'</dd>';
+    var over=items.map(function(x,i){return x.cap&&x.pun>x.cap+1e-9?'№ '+(i+1)+' (назначено '+termStrG(x.pun)+', верхний предел '+termStrG(x.cap)+')':''}).filter(Boolean);
+    var itemsTxt=items.map(function(x,i){return '№ '+(i+1)+' '+itemLabel(x)+', '+CATRU[effCat(x)]+', '+stageRu(x.stage)+', назначено '+termStrG(x.pun)}).join('; ');
+    $('c-list').innerHTML='<dt>Составов</dt><dd>'+items.length+'</dd><dt>Сумма наказаний</dt><dd>'+termStr(sum)+'</dd><dt>Наиболее строгое</dt><dd>'+termStr(big)+'</dd><dt>Максимум для расчёта ('+(allInc?'неоконченные, п. 50 Пленума № 58':'наиболее тяжкое: '+itemLabel(baseItem.x)+', без учёта ст. 62, 65, п. 51')+')</dt><dd>'+termStr(baseM)+'</dd><dt>Предел: 1,5 максимума</dt><dd>'+termStr(capc)+'</dd><dt>Предел по ст. 56</dt><dd>'+termStr(limM)+'</dd><dt>Норма</dt><dd>'+part+'</dd>'+(over.length?'<dt>Проверьте</dt><dd>Назначено выше верхнего предела состава: '+over.join('; ')+'</dd>':'');
 
     // способ назначения
     var meth=$('n-method').value,mrow='',fin=num('n-final');
-    if(meth==='abs'&&$('n-cat').value!=='2'){mrow='Поглощение по ч. 3 ст. 69 невозможно: только сложение (полное или частичное).'}
+    if(meth==='abs'&&graveFull){mrow='Поглощение по ч. 3 ст. 69 невозможно: только сложение (полное или частичное).'}
     else if(meth==='abs')mrow='Итог: '+termStr(big)+' (поглощение, ч. 2 ст. 69)';
     else if(meth==='full')mrow=sum>top?'Полное сложение даёт '+termStr(sum)+', выше предела. Итог не более '+termStrG(top)+'.':'Итог: '+termStr(sum)+' (полное сложение)';
     else if(fin>0){mrow=(fin<=big?'Срок не больше наиболее строгого наказания: это поглощение, а не частичное сложение. ':(fin>top+1e-9?'Срок выше допустимого предела '+termStrG(top)+'. ':'Итог: '+termStr(fin)+' (частичное сложение)'))}
@@ -762,7 +790,7 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
       $('p-main').textContent=hi>mx70?('более '+termStrG(mx70)+' до '+termStrG(hi)):'—';
       $('p-list').innerHTML='<dt>Неотбытая часть</dt><dd>'+termStr(rest)+'</dd><dt>Новое наказание</dt><dd>'+termStr(nw)+'</dd><dt>Полное присоединение</dt><dd>'+termStr(sum70)+'</dd><dt>Предел ст. 70</dt><dd>'+termStr(lim70)+'</dd><dt>Способ</dt><dd>Частичное или полное присоединение; итог больше каждого из сроков (ч. 4 ст. 70)</dd>';
     }else{$('p-main').textContent='Введите неотбытую часть и новое наказание.';$('p-list').innerHTML=''}
-    texts.n=base+'\nСовокупность преступлений ('+part+'): '+lowtxt+'. '+mrow+(rest>0&&nw>0?'\nСовокупность приговоров (ст. 70): '+$('p-main').textContent+'.':'');
+    texts.n=base+'\nСоставы: '+itemsTxt+'\nСовокупность преступлений ('+part+'): '+lowtxt+'. '+mrow+(rest>0&&nw>0?'\nСовокупность приговоров (ст. 70): '+$('p-main').textContent+'.':'');
   }
 
   /* ---------- Давность ---------- */
@@ -1010,8 +1038,7 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
   document.querySelectorAll('input,select').forEach(function(el){el.addEventListener('input',function(){
     var p=el.closest('[role="tabpanel"]');if(p)calcs[p.id.slice(2)]()});el.addEventListener('change',function(){var p=el.closest('[role="tabpanel"]');if(p)calcs[p.id.slice(2)]()})});
   $('u-mode').addEventListener('change',function(){fillBase();calcU()});
-  $('c-fill').addEventListener('click',function(){if(lastUpper!==null){$('c-max').value=Math.round(lastUpper*100)/100;calcN()}});
-  document.querySelectorAll('button[data-copy]').forEach(function(b){b.addEventListener('click',function(){
+    document.querySelectorAll('button[data-copy]').forEach(function(b){b.addEventListener('click',function(){
     var t=texts[b.getAttribute('data-copy')]||'';
     if(t)t+='\n\nНормы: УК РФ (ред. от 04.08.2026), УПК РФ (ред. от 26.07.2026), Пленумы ВС РФ № 58, № 8, № 19. Справочный расчёт на '+fmt(parse(todayIso))+'. Не является юридическим заключением или прогнозом решения суда; окончательное решение принимает суд.',orig=b.textContent;
     function done(s){b.textContent=s;setTimeout(function(){b.textContent=orig},1600)}
