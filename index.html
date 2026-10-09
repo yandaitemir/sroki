@@ -72,6 +72,7 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
 <header>
   <h1>Калькулятор сроков по УК РФ</h1>
   <p>Девять расчётов адвоката по стадиям дела: прекращение дела, порядок рассмотрения, наказание, условное осуждение, зачёт, УДО и замена, служба (СВО), давность и судимость. Каждая вкладка называет норму, по которой считает.</p>
+  <button type="button" class="act ghost" id="share" style="margin-top:12px">Скопировать ссылку на калькулятор</button>
 </header>
 
 <div class="tabs" role="tablist" id="tabs">
@@ -1049,6 +1050,9 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
     try{history.replaceState(null,'','#'+name)}catch(e){}
   }
   ['udo','zach','nak','dav','sud','svo','pre','ord','usl'].forEach(function(n){$('t-'+n).addEventListener('click',function(){openTab(n)})});
+  $('share').addEventListener('click',function(){var b=$('share'),o=b.textContent,u='https://yandaitemir.github.io/sroki/';
+    function done(t){b.textContent=t;setTimeout(function(){b.textContent=o},1600)}
+    try{navigator.clipboard.writeText(u).then(function(){done('Ссылка скопирована')},function(){done('Не удалось скопировать')})}catch(e){done('Не удалось скопировать')}});
   fillBase();$('u-base').selectedIndex=1;
   calcU();calcZ();calcN();calcD();calcS();calcV();calcR();calcO();calcY();
   var h=(location.hash||'').slice(1);if(calcs[h])openTab(h);
