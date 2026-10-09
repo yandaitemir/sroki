@@ -45,6 +45,7 @@ input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid 
 dl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 16px;margin:0}
 dt{color:var(--muted)} dd{margin:0;text-align:right;font-family:var(--f-mono);font-size:14px}
 .warn{background:var(--warn-bg);color:var(--warn-fg);border-radius:4px;padding:10px 12px;font-size:13px}
+.steps{margin:0;padding-left:20px;display:grid;gap:5px;font-size:14px}
 .notes{margin:0;padding-left:18px;color:var(--muted);font-size:13px;display:grid;gap:6px}
 button.act{font:inherit;font-weight:600;background:var(--accent);color:var(--accent-fg);border:0;border-radius:4px;padding:10px 14px;cursor:pointer;justify-self:start}
 button.act.ghost{background:var(--soft);color:var(--accent)}
@@ -119,7 +120,7 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
   <div class="warn" id="u-warn" hidden></div>
   <dl id="u-list"></dl>
   <div id="u-rep" hidden><hr style="margin-bottom:12px"><div class="hint">Повторное ходатайство не ранее</div><div class="status" id="u-repdate" style="font-size:18px"></div></div>
-  <button type="button" class="act" data-copy="u">Скопировать расчёт</button>
+  <button type="button" class="act" data-copy="u">Скопировать карточку результата</button>
   <ul class="notes">
     <li>Доли: ч. 3, 3.1 ст. 79 и ч. 2, 2.1 ст. 80 УК РФ. Минимум 6 месяцев по ч. 4 ст. 79 относится к лишению свободы.</li>
     <li>При совокупности берут окончательный срок и долю по наиболее тяжкому преступлению. Если есть преступление из п. «г», «д» ч. 3 ст. 79 (абз. 5, 6 ч. 2 ст. 80), берут их долю (п. 2 Пленума ВС от 21.04.2009 № 8).</li>
@@ -169,7 +170,7 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
   <div><div class="hint">К зачёту</div><p class="big" id="z-main">—</p></div>
   <div class="warn" id="z-warn" hidden></div>
   <dl id="z-list"></dl>
-  <button type="button" class="act" data-copy="z">Скопировать расчёт</button>
+  <button type="button" class="act" data-copy="z">Скопировать карточку результата</button>
   <ul class="notes">
     <li>Ч. 3 и 3.1 ст. 72 УК РФ: коэффициенты по виду наказания и учреждения. Ч. 3.2: 1 день за 1 день для названных категорий.</li>
     <li>Домашний арест: 2 дня за 1 день содержания под стражей (ч. 3.4 ст. 72). Запрет по п. 1 ч. 6 ст. 105.1 УПК: 2 дня за 1 день содержания под стражей (п. 1.1 ч. 10 ст. 109 УПК). Остальные запреты по ч. 6 ст. 105.1 здесь не считаются.</li>
@@ -203,8 +204,13 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
   <label for="n-stage">Стадия
     <select id="n-stage"><option value="1">Преступление доведено до конца</option><option value="1/2">Приготовление: только подготовил, не начал (ч. 2 ст. 66: не более 1/2 максимума)</option><option value="3/4">Покушение: начал, но не довёл до конца по не зависящим от него причинам (ч. 3 ст. 66: не более 3/4 максимума)</option></select>
   </label>
-  <div class="lbl">Ограничения верхнего предела</div>
-  <label class="chk" for="n-62a"><input id="n-62a" type="checkbox"><span>Явка с повинной, активная помощь следствию или добровольное возмещение вреда, отягчающих нет (ч. 1 ст. 62: не более 2/3 максимума)</span></label>
+  <div class="lbl">Смягчающие обстоятельства</div>
+  <label class="chk" for="n-i"><input id="n-i" type="checkbox"><span>Явка с повинной, активная помощь следствию в раскрытии преступления (п. «и» ч. 1 ст. 61)</span></label>
+  <label class="chk" for="n-k"><input id="n-k" type="checkbox"><span>Возмещение ущерба или вреда, иная помощь потерпевшему (п. «к» ч. 1 ст. 61)</span></label>
+  <div class="lbl">Отягчающие обстоятельства</div>
+  <label class="chk" for="n-agg"><input id="n-agg" type="checkbox"><span>Есть отягчающие обстоятельства (ст. 63)</span></label>
+  <span class="hint">Ч. 1 ст. 62 (не более 2/3 максимума) калькулятор применит сам: нужен п. «и» или «к» и отсутствие отягчающих. Рецидив считается отягчающим обстоятельством.</span>
+  <div class="lbl">Порядок рассмотрения дела и иные ограничения</div>
   <label class="chk" for="n-62b"><input id="n-62b" type="checkbox"><span>Заключено досудебное соглашение о сотрудничестве (ч. 2 ст. 62: не более 1/2 максимума)</span></label>
   <label class="chk" for="n-62c" ><input id="n-62c" type="checkbox"><span>Дело рассмотрено в особом порядке: обвиняемый согласен с обвинением, доказательства не исследовали (ч. 5 ст. 62: не более 2/3 максимума)</span></label>
   <label class="chk" for="n-62d"><input id="n-62d" type="checkbox"><span>Дознание проведено в сокращённой форме (ч. 5 ст. 62: не более 1/2 максимума)</span></label>
@@ -248,13 +254,15 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
   <div><div class="hint">Наказание в пределах</div><p class="big" id="n-main">—</p></div>
   <div class="warn" id="n-warn" hidden></div>
   <dl id="n-list"></dl>
+  <div class="lbl" style="margin-top:10px">Как получен результат</div>
+  <ol class="steps" id="n-steps"></ol>
   <hr>
   <div><div class="hint">Окончательное по совокупности</div><div class="status" id="c-main" style="font-size:18px"></div></div>
   <dl id="c-list"></dl>
   <hr>
   <div><div class="hint">Окончательное по совокупности приговоров (ст. 70)</div><div class="status" id="p-main" style="font-size:18px"></div></div>
   <dl id="p-list"></dl>
-  <button type="button" class="act" data-copy="n">Скопировать расчёт</button>
+  <button type="button" class="act" data-copy="n">Скопировать карточку результата</button>
   <ul class="notes">
     <li>Порядок: сначала ст. 66. Доли по ст. 62, 65 и 68 берутся от результата по ст. 66 (п. 34 Пленума ВС от 22.12.2015 № 58, ред. от 23.12.2025 № 40).</li>
     <li>Если после ст. 62, 65, 66 верхний предел ниже низшего предела санкции, наказание назначают ниже низшего предела без ссылки на ст. 64, верхний предел остаётся максимальным (п. 34 Пленума № 58).</li>
@@ -299,7 +307,7 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
   <div><div class="hint">Срок давности истекает</div><p class="big" id="d-main">—</p><div class="status" id="d-status"></div></div>
   <div class="warn" id="d-warn" hidden></div>
   <dl id="d-list"></dl>
-  <button type="button" class="act" data-copy="d">Скопировать расчёт</button>
+  <button type="button" class="act" data-copy="d">Скопировать карточку результата</button>
   <ul class="notes">
     <li>Ст. 78 ч. 1: 2, 6, 10, 15 лет со дня совершения. Ч. 2: считается до вступления приговора в силу. Ст. 83 ч. 1: те же сроки со дня вступления приговора в силу.</li>
     <li>Приостановление: ст. 78 ч. 3 (уклонение от следствия и суда, от уплаты судебного штрафа), ст. 83 ч. 2 (уклонение от отбывания) и ч. 2.1 (отсрочка). Срок возобновляется с задержания или явки, для ст. 83 истёкшая часть засчитывается (ч. 2). Для ст. 78 расчёт тоже сохраняет истёкшую часть, как принято в практике, прямой фразы об этом в ч. 3 ст. 78 нет.</li>
@@ -338,7 +346,7 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
   <div><div class="hint">Судимость погашается</div><p class="big" id="s-main">—</p><div class="status" id="s-status"></div></div>
   <div class="warn" id="s-warn" hidden></div>
   <dl id="s-list"></dl>
-  <button type="button" class="act" data-copy="s">Скопировать расчёт</button>
+  <button type="button" class="act" data-copy="s">Скопировать карточку результата</button>
   <ul class="notes">
     <li>Ч. 3 ст. 86 УК РФ. Для условного осуждения вводите дату окончания испытательного срока.</li>
     <li>При досрочном освобождении или замене неотбытой части срок исчисляется исходя из фактически отбытого наказания с момента освобождения (ч. 4 ст. 86). Выберите вид фактически отбытого наказания.</li>
@@ -380,7 +388,7 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
   <div><div class="hint" id="v-cap">Освобождение наступает</div><p class="big" id="v-main">—</p><div class="status" id="v-status"></div></div>
   <div class="warn" id="v-warn" hidden></div>
   <dl id="v-list"></dl>
-  <button type="button" class="act" data-copy="v">Скопировать расчёт</button>
+  <button type="button" class="act" data-copy="v">Скопировать карточку результата</button>
   <ul class="notes">
     <li>Ч. 1 ст. 78.1 УК РФ: призванный по мобилизации или в военное время, либо заключивший контракт в период мобилизации, военного положения или военного времени, либо совершивший преступление во время службы, освобождается от уголовной ответственности со дня награждения государственной наградой, полученной в период службы, или со дня увольнения по пп. «а», «в», «о» п. 1 ст. 51 ФЗ № 53-ФЗ. Условие: производство по делу приостановлено по ходатайству командования (п. 3.1 ч. 1, ч. 9 ст. 208 УПК РФ для предварительного следствия). До этого дня лицо от ответственности не освобождено, контроль за поведением осуществляет командование (ч. 2 ст. 78.1).</li>
     <li>Ч. 1 ст. 80.2 УК РФ: осуждённый, отбывающий наказание, призванный или заключивший контракт, освобождается от наказания условно. Окончательно освобождается от наказания в те же даты (ч. 2). Новое преступление в период службы: наказание по правилам ст. 70 УК РФ (ч. 3).</li>
@@ -398,6 +406,13 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
   <div><b>Справочник санкций.</b> Пределы лишения свободы по статьям и частям (около 80 ходовых статей) извлечены из текста Особенной части УК РФ (КонсультантПлюс, ред. от 04.08.2026) и представлены как справочные данные. Перед использованием в документах сверьте предел с текстом санкции: статья может содержать иные виды наказаний, в том числе более мягкие.</div>
   <div><b>Ограничения расчёта.</b> Законодательство и практика меняются: перед подачей документов проверьте редакцию норм на дату решения. Не учтены: ст. 238 УПК РФ, нормы УИК РФ о порядке рассмотрения ходатайств, разъяснения ВС РФ по ст. 78.1 и 80.2 УК РФ, влияние службы на давность, постановление КС РФ № 46-П в части резолютивной части, совместное применение ч. 1 и ч. 5 ст. 62 УК РФ.</div>
   <div><b>Дисклеймер.</b> Калькулятор является справочным инструментом и не заменяет справку об исчислении срока, решение суда и правовую оценку по конкретному делу. Результат расчёта не является юридической консультацией. Окончательное решение принимает суд.</div>
+  <div class="author" style="margin-top:14px;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--surface);display:grid;gap:10px">
+    <b style="font-size:17px">Адвокат Яндай-оол Темир Вячеславович</b>
+    <div>Регистрационный номер 17/298 в реестре адвокатов Республики Тыва. Форма адвокатского образования: адвокатский кабинет.</div>
+    <div class="hint">Пользование калькулятором и переписка по нему не создают отношений по оказанию юридической помощи. Юридическая помощь оказывается на основании соглашения.</div>
+    <div>Разборы судебной практики: <a href="https://t.me/yandaitemir" style="color:var(--accent)">t.me/yandaitemir</a></div>
+    <div>Вопросы: <a href="mailto:yandaitemir@yandex.ru" style="color:var(--accent)">yandaitemir@yandex.ru</a></div>
+  </div>
 </div>
 </div>
 
@@ -526,29 +541,35 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
   function fmt1(x){return (Math.round(x*100)/100).toString().replace('.',',')}
 
   /* ---------- Наказание ---------- */
-  var lastUpper=null;
+  var lastUpper=null,cTouched=false;
+  ['c1','c2','c3','c-max','n-final','p-rest','p-new','n-method','n-cat','n-lim'].forEach(function(id){var e=$(id);if(e)['input','change'].forEach(function(t){e.addEventListener(t,function(){cTouched=true})})});
   function calcN(){
     var minM=num('n-minY')*12+num('n-minM'),maxM=num('n-maxY')*12+num('n-maxM');
-    var warns=[],rows=[];
-    if(!maxM){show('n',{main:'—',warn:'Введите высший предел санкции.'});return}
+    var warns=[],rows=[],steps=[];
+    if(!maxM){show('n',{main:'—',warn:'Введите высший предел санкции.'});$('n-steps').innerHTML='';return}
     var stage=$('n-stage').value,sf=stage==='1'?1:(stage==='1/2'?.5:.75);
     var max1=maxM*sf;
     var ai=window.__artInfo;
     if(ai){rows.push(['Статья',"ст. "+ai.art+" ч. "+ai.part+" УК РФ"]);rows.push(['Категория (ст. 15)',ai.cat]);if(ai.life)warns.push('Санкция предусматривает также пожизненное лишение свободы (и/или смертную казнь). Правила ч. 3 и 4 ст. 62 и ч. 4 ст. 66 здесь не применяются автоматически.');if(ai.defMin)warns.push('Наименьший срок не указан в санкции: действует нижний предел ст. 56 (2 месяца).')}
     rows.push(['Санкция',termStr(minM)+' – '+termStr(maxM)]);
-    if(sf<1)rows.push(['Высший предел по ст. 66',termStr(max1)]);
-    var fr=[];
-    if($('n-62a').checked)fr.push([2/3,'ч. 1 ст. 62']);
-    if($('n-62b').checked)fr.push([1/2,'ч. 2 ст. 62']);
-    if($('n-62c').checked)fr.push([2/3,'ч. 5 ст. 62 (гл. 40 УПК)']);
-    if($('n-62d').checked)fr.push([1/2,'ч. 5 ст. 62 (ст. 226.9 УПК)']);
-    if($('n-65').checked)fr.push([2/3,'ст. 65']);
+    steps.push('Санкция'+(ai?' ст. '+ai.art+' ч. '+ai.part:'')+': лишение свободы от '+termStrG(minM)+' до '+termStrG(maxM)+'.');
+    if(sf<1){rows.push(['Высший предел по ст. 66',termStr(max1)]);steps.push((stage==='1/2'?'Ч. 2 ст. 66 (приготовление): не более 1/2 максимума':'Ч. 3 ст. 66 (покушение): не более 3/4 максимума')+', то есть до '+termStrG(max1)+'.')}
+    var fr=[],rec=$('n-68').checked,mit=$('n-i').checked||$('n-k').checked,agg=$('n-agg').checked||rec;
+    if(mit&&!agg)fr.push([2/3,'ч. 1 ст. 62','2/3']);
+    else if(mit&&agg)steps.push('Ч. 1 ст. 62 не применяется: есть отягчающие обстоятельства'+(rec?' (рецидив)':'')+'.');
+    else if(agg===false&&!mit)steps.push('Ч. 1 ст. 62 не применяется: нет смягчающих по п. «и» и «к» ч. 1 ст. 61.');
+    if($('n-62b').checked)fr.push([1/2,'ч. 2 ст. 62','1/2']);
+    if($('n-62c').checked)fr.push([2/3,'ч. 5 ст. 62 (гл. 40 УПК)','2/3']);
+    if($('n-62d').checked)fr.push([1/2,'ч. 5 ст. 62 (ст. 226.9 УПК)','1/2']);
+    if($('n-65').checked)fr.push([2/3,'ст. 65','2/3']);
+    fr.forEach(function(f){steps.push(f[1].charAt(0).toUpperCase()+f[1].slice(1)+': не более '+f[2]+' максимума'+(sf<1?' по ст. 66':'')+', то есть до '+termStrG(max1*f[0])+'.')});
     var cap=max1,capName='';
     fr.forEach(function(f){var v=max1*f[0];if(v<cap-1e-9||capName===''){if(v<=cap+1e-9){cap=v;capName=f[1]}}});
+    if(fr.length>1)steps.push('Применяется наименьший предел: '+capName+'.');
     if(fr.length>1)warns.push('Отмечено несколько ограничений верхнего предела: применена наименьшая доля ('+capName+'). Совместное применение ч. 1 и ч. 5 ст. 62 проверьте по практике.');
     if(capName)rows.push(['Верхний предел ('+capName+')',termStr(cap)]);
     var low=minM;
-    if($('n-68').checked){var l68=max1/3;rows.push(['Нижний предел по ч. 2 ст. 68 (1/3)',termStr(l68)]);low=Math.max(minM,l68);if(l68<minM)warns.push('1/3 максимума меньше низшего предела санкции, действует низший предел санкции.')}
+    if($('n-68').checked){var l68=max1/3;rows.push(['Нижний предел по ч. 2 ст. 68 (1/3)',termStr(l68)]);low=Math.max(minM,l68);if(l68<minM)warns.push('1/3 максимума меньше низшего предела санкции, действует низший предел санкции.');steps.push('Ч. 2 ст. 68 (рецидив): не менее 1/3 максимума, то есть от '+termStrG(l68)+(l68<minM?', но ниже низшего предела санкции нельзя: действует '+termStrG(minM):'')+'.')}
     var main;
     if(low>cap+1e-9){
       warns.push('Нижний предел выше верхнего. По п. 34 Пленума ВС № 58 при применении ст. 62, 65, 66 наказание назначают ниже низшего предела без ссылки на ст. 64, верхний предел остаётся максимальным. Если нижний предел задан ст. 68, проверьте её сочетание с ограничениями.');
@@ -558,9 +579,12 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
       warns.push('Верхний предел ниже низшего предела санкции: наказание ниже низшего предела без ссылки на ст. 64 (п. 34 Пленума № 58).');
     }else main='от '+termStrG(low)+' до '+termStrG(cap);
     lastUpper=cap;
+    steps.push('Итог: '+main+'.');steps=steps.map(function(x){return x.replace(/\.\.$/,'.')});
     show('n',{main:main,rows:rows,warn:warns.join(' '),copy:''});
-    var base=main;
+    $('n-steps').innerHTML=steps.map(function(x){return '<li>'+x+'</li>'}).join('');
+    var base='Расчёт пределов наказания (справочный)\nСтатья: '+(ai?'ст. '+ai.art+' ч. '+ai.part+' УК РФ, '+ai.cat:'не выбрана (пределы введены вручную)')+'\nХод расчёта:\n'+steps.map(function(x,i){return (i+1)+') '+x}).join('\n');
     // совокупность
+    if(!cTouched){texts.n=base;$('c-main').textContent='Введите свои наказания, чтобы посчитать совокупность. В полях сейчас пример.';$('c-list').innerHTML='';$('p-main').textContent='';$('p-list').innerHTML='';return}
     var cs=[num('c1'),num('c2'),num('c3')].filter(function(v){return v>0});
     var cmax=num('c-max');
     if(cs.length<2||!cmax){$('c-main').textContent='Введите не менее двух наказаний и максимум.';$('c-list').innerHTML='';texts.n=base;return}
@@ -588,7 +612,7 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
       $('p-main').textContent=hi>mx70?('более '+termStrG(mx70)+' до '+termStrG(hi)):'—';
       $('p-list').innerHTML='<dt>Неотбытая часть</dt><dd>'+termStr(rest)+'</dd><dt>Новое наказание</dt><dd>'+termStr(nw)+'</dd><dt>Полное присоединение</dt><dd>'+termStr(sum70)+'</dd><dt>Предел ст. 70</dt><dd>'+termStr(lim70)+'</dd><dt>Способ</dt><dd>Частичное или полное присоединение; итог больше каждого из сроков (ч. 4 ст. 70)</dd>';
     }else{$('p-main').textContent='Введите неотбытую часть и новое наказание.';$('p-list').innerHTML=''}
-    texts.n='Пределы наказания: '+base+'. Совокупность ('+part+'): '+lowtxt+'. '+mrow+(rest>0&&nw>0?' Ст. 70: '+$('p-main').textContent+'.':'');
+    texts.n=base+'\nСовокупность преступлений ('+part+'): '+lowtxt+'. '+mrow+(rest>0&&nw>0?'\nСовокупность приговоров (ст. 70): '+$('p-main').textContent+'.':'');
   }
 
   /* ---------- Давность ---------- */
@@ -726,7 +750,8 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
   $('u-mode').addEventListener('change',function(){fillBase();calcU()});
   $('c-fill').addEventListener('click',function(){if(lastUpper!==null){$('c-max').value=Math.round(lastUpper*100)/100;calcN()}});
   document.querySelectorAll('button[data-copy]').forEach(function(b){b.addEventListener('click',function(){
-    var t=texts[b.getAttribute('data-copy')]||'',orig='Скопировать расчёт';
+    var t=texts[b.getAttribute('data-copy')]||'';
+    if(t)t+='\n\nНормы: УК РФ (ред. от 04.08.2026), УПК РФ (ред. от 26.07.2026), Пленумы ВС РФ № 58, № 8, № 19. Справочный расчёт на '+fmt(parse(todayIso))+'. Не является юридическим заключением или прогнозом решения суда; окончательное решение принимает суд.',orig=b.textContent;
     function done(s){b.textContent=s;setTimeout(function(){b.textContent=orig},1600)}
     try{navigator.clipboard.writeText(t).then(function(){done('Скопировано')},function(){done('Не удалось скопировать')})}catch(e){done('Не удалось скопировать')}})});
   function openTab(name){
