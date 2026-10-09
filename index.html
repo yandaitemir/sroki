@@ -22,7 +22,10 @@ body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15
 .wrap{max-width:1000px;margin:0 auto;display:grid;gap:18px}
 header h1{font-family:var(--f-display);font-size:28px;line-height:1.15;margin:0 0 6px;text-wrap:balance}
 header p{margin:0;color:var(--muted);max-width:68ch}
-.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:12px 22px;flex-wrap:wrap}
+.tg{display:grid;gap:2px;border-bottom:1px solid var(--line);min-width:0}
+.tgl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:0 14px}
+.tb{display:flex;flex-wrap:wrap;gap:4px}
 .tabs button{background:none;color:var(--muted);border:0;border-bottom:3px solid transparent;border-radius:0;padding:10px 14px;font:inherit;font-weight:600;cursor:pointer;margin-bottom:-1px}
 .tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
 .grid{display:grid;gap:18px;grid-template-columns:minmax(0,1fr)}
@@ -35,7 +38,7 @@ label{display:grid;gap:6px;font-weight:500;font-size:14px}
 input,select{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:9px 10px;width:100%;min-width:0}
 input[type="checkbox"]{width:auto;accent-color:var(--accent)}
 .chk{display:flex;gap:10px;align-items:flex-start;font-weight:400}
-.chk input{margin-top:4px}
+.chk input{margin-top:4px;flex:none}
 input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
@@ -45,6 +48,9 @@ input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid 
 .status.ok{color:var(--ok)}
 dl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 16px;margin:0}
 dt{color:var(--muted)} dd{margin:0;text-align:right;font-family:var(--f-mono);font-size:14px}
+dl.stack{grid-template-columns:minmax(0,1fr);gap:2px}
+dl.stack dt{margin-top:10px;font-size:13px}
+dl.stack dd{text-align:left;font-family:inherit;font-size:14px;font-weight:500}
 .warn{background:var(--warn-bg);color:var(--warn-fg);border-radius:4px;padding:10px 12px;font-size:13px}
 .steps{margin:0;padding-left:20px;display:grid;gap:5px;font-size:14px}
 .notes{margin:0;padding-left:18px;color:var(--muted);font-size:13px;display:grid;gap:6px}
@@ -61,16 +67,27 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
 <div class="wrap">
 <header>
   <h1>Калькулятор сроков по УК РФ</h1>
-  <p>Шесть расчётов адвоката по исполнению наказания и давности: УДО и замена, зачёт, пределы наказания, давность, судимость, освобождение в связи с военной службой. Каждая вкладка называет норму, по которой считает.</p>
+  <p>Девять расчётов адвоката по стадиям дела: прекращение дела, порядок рассмотрения, наказание, условное осуждение, зачёт, УДО и замена, служба (СВО), давность и судимость. Каждая вкладка называет норму, по которой считает.</p>
 </header>
 
 <div class="tabs" role="tablist" id="tabs">
-  <button role="tab" id="t-udo" aria-controls="p-udo" aria-selected="true">УДО и замена</button>
-  <button role="tab" id="t-zach" aria-controls="p-zach" aria-selected="false">Зачёт</button>
-  <button role="tab" id="t-nak" aria-controls="p-nak" aria-selected="false">Наказание</button>
-  <button role="tab" id="t-dav" aria-controls="p-dav" aria-selected="false">Давность</button>
-  <button role="tab" id="t-sud" aria-controls="p-sud" aria-selected="false">Судимость</button>
-  <button role="tab" id="t-svo" aria-controls="p-svo" aria-selected="false">Служба (СВО)</button>
+  <div class="tg" role="presentation"><div class="tgl">Дело и суд</div><div class="tb">
+    <button role="tab" id="t-pre" aria-controls="p-pre" aria-selected="false">Прекращение дела</button>
+    <button role="tab" id="t-ord" aria-controls="p-ord" aria-selected="false">Порядок рассмотрения</button>
+    <button role="tab" id="t-nak" aria-controls="p-nak" aria-selected="false">Наказание</button>
+  </div></div>
+  <div class="tg" role="presentation"><div class="tgl">Приговор</div><div class="tb">
+    <button role="tab" id="t-usl" aria-controls="p-usl" aria-selected="false">Условное осуждение</button>
+    <button role="tab" id="t-zach" aria-controls="p-zach" aria-selected="false">Зачёт</button>
+  </div></div>
+  <div class="tg" role="presentation"><div class="tgl">Исполнение</div><div class="tb">
+    <button role="tab" id="t-udo" aria-controls="p-udo" aria-selected="true">УДО и замена</button>
+    <button role="tab" id="t-svo" aria-controls="p-svo" aria-selected="false">Служба (СВО)</button>
+  </div></div>
+  <div class="tg" role="presentation"><div class="tgl">Сроки и судимость</div><div class="tb">
+    <button role="tab" id="t-dav" aria-controls="p-dav" aria-selected="false">Давность</button>
+    <button role="tab" id="t-sud" aria-controls="p-sud" aria-selected="false">Судимость</button>
+  </div></div>
 </div>
 
 <!-- УДО -->
@@ -406,11 +423,136 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
 </div>
 </section>
 
+<!-- Прекращение дела -->
+<section role="tabpanel" id="p-pre" aria-labelledby="t-pre" class="grid" hidden>
+<div class="panel">
+  <h2>Исходные данные <span class="tag">пример</span></h2>
+  <p class="hint" style="margin:0">Как пользоваться: ответьте на вопросы о деле. Калькулятор покажет, какие основания прекращения дела без оправдания подходят по закону, и назовёт норму. Это не реабилитирующие основания: факт преступления не оспаривается.</p>
+  <div id="r-artbox"></div>
+  <label for="r-cat">Тяжесть преступления
+    <select id="r-cat"><option value="small">Небольшой тяжести</option><option value="medium" selected>Средней тяжести</option><option value="grave">Тяжкое</option><option value="special">Особо тяжкое</option></select>
+  </label>
+  <label for="r-stage">На какой стадии дело
+    <select id="r-stage"><option value="pre">Следствие или дознание</option><option value="court" selected>Суд первой инстанции</option><option value="appeal">Апелляция</option></select>
+  </label>
+  <label class="chk" for="r-first"><input id="r-first" type="checkbox" checked><span>Преступление совершено впервые</span></label>
+  <label class="chk" for="r-harm"><input id="r-harm" type="checkbox" checked><span>Ущерб возмещён или вред иным образом заглажен</span></label>
+  <label class="chk" for="r-recon"><input id="r-recon" type="checkbox"><span>Потерпевший заявил о примирении</span></label>
+  <label class="chk" for="r-conf"><input id="r-conf" type="checkbox"><span>Явился с повинной и способствовал раскрытию и расследованию преступления</span></label>
+  <label for="r-tax">Особые составы (возмещение ущерба, ст. 76.1)
+    <select id="r-tax">
+      <option value="none">Нет, обычный состав</option>
+      <option value="bud">Налоговые и иные преступления против бюджета: ст. 198–199.1, 199.3, 199.4</option>
+      <option value="list">Состав из перечня ч. 2 ст. 76.1 (проверьте по тексту статьи)</option>
+    </select>
+  </label>
+  <label class="chk" for="r-bud"><input id="r-bud" type="checkbox"><span>Ущерб бюджетной системе возмещён в полном объёме (для ст. 198–199.1, 199.3, 199.4)</span></label>
+  <label class="chk" for="r-x2"><input id="r-x2" type="checkbox"><span>Перечислено в бюджет денежное возмещение в двукратном размере (для составов из ч. 2 ст. 76.1)</span></label>
+  <label class="chk" for="r-obj"><input id="r-obj" type="checkbox"><span>Обвиняемый возражает против прекращения дела</span></label>
+  <label for="r-fine">Максимальный штраф по санкции, руб. (если штрафа в санкции нет, оставьте пустым)<input id="r-fine" type="number" min="0" placeholder="например, 200000"></label>
+  <button type="button" class="act ghost" id="r-godav">Проверить давность (ст. 78)</button>
+</div>
+<div class="panel" aria-live="polite">
+  <h2>Результат</h2>
+  <div><div class="hint">Подходящих оснований</div><p class="big" id="r-main">—</p><div class="status" id="r-status"></div></div>
+  <div class="warn" id="r-warn" hidden></div>
+  <dl class="stack" id="r-list"></dl>
+  <button type="button" class="act" data-copy="r">Скопировать карточку результата</button>
+  <ul class="notes">
+    <li>Освобождение от ответственности — право, а не обязанность: в ст. 75, 76, 76.2 УК РФ сказано «может быть освобождено», в ст. 25, 25.1, 28 УПК РФ — «вправе прекратить». Решает суд, следователь с согласия руководителя следственного органа или дознаватель с согласием прокурора (ст. 25, 28 УПК РФ).</li>
+    <li>Ст. 75 УК РФ: впервые, небольшая или средняя тяжесть, явка с повинной, содействие следствию, возмещение ущерба или заглаживание вреда, и вследствие раскаяния лицо перестало быть общественно опасным (это оценивает суд). Для иных категорий — только если так прямо сказано в статье Особенной части (ч. 2 ст. 75, ч. 2 ст. 28 УПК РФ). Возражение обвиняемого блокирует прекращение (ч. 4 ст. 28 УПК РФ).</li>
+    <li>Ст. 76 УК РФ и ст. 25 УПК РФ: впервые, небольшая или средняя тяжесть, примирение с потерпевшим и заглаживание вреда; прекращают на основании заявления потерпевшего или его законного представителя.</li>
+    <li>Ст. 76.2 УК РФ и ст. 25.1 УПК РФ: впервые, небольшая или средняя тяжесть, возмещение ущерба или заглаживание вреда. Допускается в любой момент до ухода суда в совещательную комнату для приговора, а в апелляции — до ухода в совещательную комнату для решения (ч. 2 ст. 25.1 УПК РФ). Размер штрафа — не больше половины максимального штрафа по статье, а если штрафа нет — не больше 250 000 руб.; суд учитывает тяжесть деяния и имущественное положение (ст. 104.5 УК РФ). Не уплатил в срок, установленный судом — штраф отменяют, лицо привлекают к ответственности по статье Особенной части (ч. 2 ст. 104.4 УК РФ).</li>
+    <li>Ст. 76.1 УК РФ: ч. 1 — преступления по ст. 198–199.1, 199.3, 199.4, ущерб бюджетной системе возмещён полностью; ч. 2 — составы из длинного перечня, нужно возместить ущерб и перечислить в бюджет двукратную сумму (ущерба, дохода, избегнутых убытков или размера деяния — в зависимости от случая). Ч. 3 (добровольное декларирование) здесь не считается. Возражение обвиняемого блокирует прекращение (ч. 5 ст. 28.1 УПК РФ).</li>
+    <li>Признак «впервые» вводится вручную: правила его толкования здесь не разбираются, проверьте по разъяснениям Пленума ВС РФ № 19 и практике. Давность (ст. 78 УК РФ) считается на отдельной вкладке.</li>
+  </ul>
+</div>
+</section>
+
+<!-- Порядок рассмотрения -->
+<section role="tabpanel" id="p-ord" aria-labelledby="t-ord" class="grid" hidden>
+<div class="panel">
+  <h2>Исходные данные <span class="tag">пример</span></h2>
+  <p class="hint" style="margin:0">Как пользоваться: ответьте на вопросы. Калькулятор покажет, возможен ли особый порядок (приговор без судебного разбирательства при согласии с обвинением) и какой потолок наказания тогда действует.</p>
+  <div id="o-artbox"></div>
+  <label for="o-cat">Тяжесть преступления
+    <select id="o-cat"><option value="small">Небольшой тяжести</option><option value="medium" selected>Средней тяжести</option><option value="grave">Тяжкое</option><option value="special">Особо тяжкое</option></select>
+  </label>
+  <label for="o-max">Максимум наиболее строгого наказания по санкции, мес.<input id="o-max" type="number" min="0" value="60"></label>
+  <label class="chk" for="o-agree"><input id="o-agree" type="checkbox" checked><span>Обвиняемый согласен с обвинением и ходатайствует об особом порядке</span></label>
+  <label class="chk" for="o-vol"><input id="o-vol" type="checkbox" checked><span>Ходатайство заявлено добровольно, в присутствии защитника, последствия понятны</span></label>
+  <label class="chk" for="o-obj"><input id="o-obj" type="checkbox"><span>Государственный (частный) обвинитель или потерпевший возражает</span></label>
+  <label for="o-when">Когда заявлено ходатайство
+    <select id="o-when"><option value="218">При ознакомлении с материалами дела (ст. 218 УПК РФ)</option><option value="229">На предварительном слушании, если оно обязательно (ст. 229 УПК РФ)</option></select>
+  </label>
+  <button type="button" class="act ghost" id="o-gonak">Рассчитать наказание с учётом ст. 62, 66, 68</button>
+</div>
+<div class="panel" aria-live="polite">
+  <h2>Результат</h2>
+  <div><div class="hint">Особый порядок</div><p class="big" id="o-main">—</p><div class="status" id="o-status"></div></div>
+  <div class="warn" id="o-warn" hidden></div>
+  <dl class="stack" id="o-list"></dl>
+  <button type="button" class="act" data-copy="o">Скопировать карточку результата</button>
+  <ul class="notes">
+    <li>Ст. 314 УПК РФ: особый порядок возможен по делам о преступлениях небольшой или средней тяжести. Суд вправе постановить приговор без судебного разбирательства, если удостоверится, что обвиняемый осознаёт последствия, ходатайство добровольное и после консультации с защитником, а обвинитель и (или) потерпевший не возражают.</li>
+    <li>Ст. 315 УПК РФ: ходатайство заявляется в присутствии защитника при ознакомлении с материалами дела (запись в протоколе, ч. 2 ст. 218) или на предварительном слушании, когда оно обязательно (ст. 229).</li>
+    <li>Ч. 7 ст. 316 УПК РФ: наказание не может превышать две трети максимального срока или размера наиболее строгого вида наказания, предусмотренного за преступление. Если наиболее строгий вид — не лишение свободы, введите максимум в месяцах вручную или пересчитайте сами.</li>
+    <li>При возражении подсудимого, обвинителя или потерпевшего, а также по собственной инициативе судья прекращает особый порядок и назначает рассмотрение в общем порядке (ч. 6 ст. 316). В особом порядке судья в общем порядке не исследует и не оценивает доказательства (ч. 5). Процессуальные издержки с подсудимого не взыскиваются (ч. 10). В особом порядке возможно прекращение дела по ст. 25.1 и 28.1 УПК РФ (ч. 9.1).</li>
+    <li>Ч. 5 ст. 62 УК РФ и ст. 66, 68 УК РФ сочетаются с потолком «две трети»; точный расчёт — на вкладке «Наказание». Досудебное соглашение о сотрудничестве (ст. 63.1 УК РФ, ч. 2 и 4 ст. 62 УК РФ) здесь не считается.</li>
+  </ul>
+</div>
+</section>
+
+<!-- Условное осуждение -->
+<section role="tabpanel" id="p-usl" aria-labelledby="t-usl" class="grid" hidden>
+<div class="panel">
+  <h2>Исходные данные <span class="tag">пример</span></h2>
+  <p class="hint" style="margin:0">Как пользоваться: выберите назначенное наказание и отметьте обстоятельства, при которых условное осуждение запрещено. Калькулятор проверит запреты, назовёт допустимый испытательный срок и даты по нему.</p>
+  <label for="y-kind">Какое наказание назначено
+    <select id="y-kind">
+      <option value="ir">Исправительные работы</option>
+      <option value="vs">Ограничение по военной службе</option>
+      <option value="dvch">Содержание в дисциплинарной воинской части</option>
+      <option value="ls1">Лишение свободы до 1 года включительно</option>
+      <option value="ls8" selected>Лишение свободы свыше 1 года до 8 лет включительно</option>
+      <option value="ls9">Лишение свободы свыше 8 лет</option>
+      <option value="other">Другой вид наказания (штраф, обязательные работы, ограничение свободы, принудительные работы, арест)</option>
+    </select>
+  </label>
+  <div class="lbl">Запреты ч. 1 ст. 73. Отметьте, что есть в деле</div>
+  <label class="chk" for="y-a"><input id="y-a" type="checkbox"><span>Осуждён за преступление против половой неприкосновенности ребёнка до 14 лет (ст. 131–135, 240–242.2 в отношении детей до 14 лет)</span></label>
+  <label class="chk" for="y-a1"><input id="y-a1" type="checkbox"><span>Осуждён по составу из п. «а.1» ч. 1 ст. 73 (ч. 1–2 ст. 205.1, ст. 205.2, ч. 2 ст. 205.4, ч. 1–3 ст. 206, ч. 4 ст. 210, ст. 210.1, ч. 2 ст. 281.3, ст. 360)</span></label>
+  <label class="chk" for="y-b"><input id="y-b" type="checkbox"><span>Тяжкое или особо тяжкое преступление совершено в испытательный срок по прежнему условному осуждению за умышленное преступление либо в неотбытую часть наказания при УДО за умышленное преступление</span></label>
+  <label class="chk" for="y-c"><input id="y-c" type="checkbox"><span>Опасный или особо опасный рецидив</span></label>
+  <div class="row2">
+    <label for="y-proc">Приговор провозглашён<input id="y-proc" type="date" value="2026-09-15"></label>
+    <label for="y-force">Приговор вступил в силу<input id="y-force" type="date" value="2026-09-30"></label>
+  </div>
+  <label for="y-ts">Испытательный срок, мес.<input id="y-ts" type="number" min="0" value="24"></label>
+  <label for="y-today">Сегодняшняя дата<input id="y-today" type="date"></label>
+</div>
+<div class="panel" aria-live="polite">
+  <h2>Результат</h2>
+  <div><div class="hint">Испытательный срок оканчивается</div><p class="big" id="y-main">—</p><div class="status" id="y-status"></div></div>
+  <div class="warn" id="y-warn" hidden></div>
+  <dl class="stack" id="y-list"></dl>
+  <button type="button" class="act" data-copy="y">Скопировать карточку результата</button>
+  <ul class="notes">
+    <li>Ч. 1 ст. 73 УК РФ: условным можно признать исправительные работы, ограничение по военной службе, содержание в дисциплинарной воинской части или лишение свободы до восьми лет, если суд придёт к выводу, что исправление возможно без реального отбывания.</li>
+    <li>Ч. 3 ст. 73: при лишении свободы до одного года или более мягком наказании испытательный срок от 6 месяцев до 3 лет, при лишении свободы свыше года — от 6 месяцев до 5 лет. Ч. 3.1: для дисциплинарной воинской части — в пределах оставшегося срока службы на день провозглашения приговора.</li>
+    <li>Срок исчисляется с вступления приговора в силу, но в него засчитывается время со дня провозглашения (ч. 3). Дату окончания калькулятор считает от дня провозглашения: это буквальное прочтение, прямой формулы окончания в статье нет.</li>
+    <li>Ч. 2 ст. 73: суд учитывает характер и опасность преступления и личность виновного, смягчающие и отягчающие обстоятельства. Ч. 4: могут быть назначены дополнительные наказания. Ч. 5: суд возлагает обязанности (не менять место жительства, работы, учёбы без уведомления, не посещать определённые места, пройти лечение, трудиться или учиться и др.). Ч. 7: обязанности можно отменить, изменить или дополнить по представлению контролирующего органа.</li>
+    <li>Ст. 74 УК РФ: отмена условного осуждения и снятие судимости возможны по истечении не менее половины срока, если осуждённый доказал исправление и возместил вред (ч. 1). Срок можно продлить не более чем на один год при уклонении от обязанностей, от возмещения вреда или нарушении общественного порядка с административной ответственностью (ч. 2). За систематические нарушения или если осуждённый скрылся от контроля условное осуждение могут отменить (ч. 3). Новое умышленное тяжкое или особо тяжкое преступление — отмена и наказание по ст. 70, неосторожное или умышленное небольшой или средней тяжести — решает суд (ч. 4–5).</li>
+    <li>Разъяснения Пленума ВС РФ от 25.06.2024 № 18 об отмене условного осуждения и продлении срока и раздел Пленума № 58 об условном осуждении здесь не разбираются.</li>
+  </ul>
+</div>
+</section>
+
 <div class="foot">
-  <div><b>Нормативная база (редакции на 08.10.2026 по КонсультантПлюс).</b> Уголовный кодекс РФ от 13.06.1996 № 63-ФЗ (ред. от 04.08.2026): ст. 15, 56, 62, 65, 66, 68–72, 78, 78.1, 79, 80, 80.2, 83, 86, 93–95. Уголовно-процессуальный кодекс РФ от 18.12.2001 № 174-ФЗ (ред. от 26.07.2026): ст. 24, 27, 105.1, 109, 208. Уголовно-исполнительный кодекс РФ (ред. от 23.03.2026): ст. 175. ФЗ от 28.03.1998 № 53-ФЗ «О воинской обязанности и военной службе»: п. 1 ст. 51.</div>
+  <div><b>Нормативная база (редакции на 08.10.2026 по КонсультантПлюс).</b> Уголовный кодекс РФ от 13.06.1996 № 63-ФЗ (ред. от 04.08.2026): ст. 15, 56, 62, 65, 66, 68–72, 73, 74, 75, 76, 76.1, 76.2, 78, 78.1, 79, 80, 80.2, 83, 86, 93–95, 104.4, 104.5. Уголовно-процессуальный кодекс РФ от 18.12.2001 № 174-ФЗ (ред. от 26.07.2026): ст. 24, 25, 25.1, 27, 28, 28.1, 105.1, 109, 208, 314–316. Уголовно-исполнительный кодекс РФ (ред. от 23.03.2026): ст. 175. ФЗ от 28.03.1998 № 53-ФЗ «О воинской обязанности и военной службе»: п. 1 ст. 51.</div>
   <div><b>Судебная практика.</b> Постановление Пленума ВС РФ от 22.12.2015 № 58 «О практике назначения судами уголовного наказания» (ред. от 23.12.2025 № 40), п. 33–35. Постановление Пленума ВС РФ от 21.04.2009 № 8 «О судебной практике по делам об УДО, о замене неотбытой части наказания более мягким видом наказания», п. 1–2. Постановление Пленума ВС РФ от 27.06.2013 № 19 «О применении судами законодательства, регламентирующего основания и порядок освобождения от уголовной ответственности», п. 17–20. Постановление КС РФ от 18.07.2022 № 33-П. Постановление КС РФ от 17.12.2025 № 46-П.</div>
   <div><b>Справочник санкций.</b> Пределы лишения свободы по статьям и частям (78 ходовых статей) извлечены из текста Особенной части УК РФ (КонсультантПлюс, ред. от 04.08.2026) и 09.10.2026 повторно сверены по тексту на rulaws.ru (редакция кодекса от 04.08.2026): расхождений не найдено; три части ст. 109 подтверждены только по пересказу. Перед использованием в документах сверьте предел с текстом санкции: статья может содержать иные виды наказаний, в том числе более мягкие.</div>
-  <div><b>Ограничения расчёта.</b> Законодательство и практика меняются: перед подачей документов проверьте редакцию норм на дату решения. Не учтены: ст. 238 УПК РФ, нормы УИК РФ о порядке рассмотрения ходатайств, разъяснения ВС РФ по ст. 78.1 и 80.2 УК РФ, влияние службы на давность, расчёт предела при совместном применении ч. 1 и ч. 5 ст. 62 УК РФ. Часть срока при УДО и замене считается по календарным месяцам, дробный остаток по 30 дней на месяц: сверяйте с справкой колонии.</div>
+  <div><b>Ограничения расчёта.</b> Законодательство и практика меняются: перед подачей документов проверьте редакцию норм на дату решения. Не учтены: нормы УИК РФ о порядке рассмотрения ходатайств (кроме ст. 175), разъяснения ВС РФ по ст. 78.1 и 80.2 УК РФ (отдельных не найдено), влияние службы на давность, расчёт предела при совместном применении ч. 1 и ч. 5 ст. 62 УК РФ (прямого правила в действующем Пленуме № 58 нет). Для вкладок «Прекращение дела», «Порядок рассмотрения» и «Условное осуждение» не разбирались: толкование признака «впервые», ст. 28.1 УПК и ст. 76.1 УК в части ч. 3, гл. 40.1 УПК, Постановление Пленума ВС РФ от 25.06.2024 № 18 об отмене условного осуждения, раздел Пленума № 58 об условном осуждении. Часть срока при УДО и замене считается по календарным месяцам, дробный остаток по 30 дней на месяц: сверяйте с справкой колонии.</div>
   <div><b>Дисклеймер.</b> Калькулятор является справочным инструментом и не заменяет справку об исчислении срока, решение суда и правовую оценку по конкретному делу. Результат расчёта не является юридической консультацией. Окончательное решение принимает суд.</div>
   <div class="author" style="margin-top:14px;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--surface);display:grid;gap:10px">
     <b style="font-size:17px">Адвокат Яндай-оол Темир Вячеславович</b>
@@ -462,7 +604,7 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
     return {s:'Наступило '+days(-diff)+' назад',ok:true};
   }
   var now=new Date(),todayIso=iso(utc(now.getFullYear(),now.getMonth(),now.getDate()));
-  ['u-today','d-today','s-today','v-today'].forEach(function(id){$(id).value=todayIso});
+  ['u-today','d-today','s-today','v-today','y-today'].forEach(function(id){$(id).value=todayIso});
 
   /* ---------- УДО и замена ---------- */
   var UDO_OPT=[['1/3','Небольшой или средней тяжести: отбыть 1/3 срока (п. «а» ч. 3 ст. 79)'],['1/2','Тяжкое: отбыть 1/2 срока (п. «б» ч. 3 ст. 79)'],['2/3','Особо тяжкое: отбыть 2/3 срока (п. «в» ч. 3 ст. 79)'],['2/3','УДО ранее отменяли по ч. 7 ст. 79: отбыть 2/3 срока (п. «в» ч. 3 ст. 79)'],['3/4','Преступление против половой неприкосновенности несовершеннолетних, тяжкие и особо тяжкие по наркотикам, терроризм, преступное сообщество, диверсия, государственная измена: отбыть 3/4 срока (п. «г» ч. 3 ст. 79)'],['4/5','Половая неприкосновенность лиц до 14 лет: отбыть 4/5 срока (п. «д» ч. 3 ст. 79)'],['1/4','Беременная женщина или женщина с ребёнком до 4 лет в доме ребёнка, небольшая тяжесть: отбыть 1/4 срока (ч. 3.1 ст. 79)'],['life','Пожизненное лишение свободы: 25 лет (ч. 5 ст. 79)'],['1/3','Преступление совершено до 18 лет, небольшой или средней тяжести либо тяжкое: отбыть 1/3 срока (п. «а» ч. 1 ст. 93)'],['2/3','Преступление совершено до 18 лет, особо тяжкое: отбыть 2/3 срока (п. «б» ч. 1 ст. 93)'],['1/4','Преступление совершено до 18 лет, небольшой тяжести; беременная женщина или женщина с ребёнком до 4 лет в доме ребёнка: отбыть 1/4 срока (ч. 2 ст. 93)']];
@@ -751,8 +893,120 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
   mkPicker('d-artbox',function(hi){setSel('d-cat',hi<=36?'2':(hi<=60?'6':(hi<=120?'10':'15')),calcD)});
   mkPicker('s-artbox',function(hi){setSel('s-cat',hi<=60?'3':(hi<=120?'8':'10'),calcS)});
 
+  /* ---------- Прекращение дела ---------- */
+  function rub(n){return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,' ')+' руб.'}
+  function calcR(){
+    var cat=$('r-cat').value,sm=(cat==='small'||cat==='medium'),stage=$('r-stage').value;
+    var first=$('r-first').checked,harm=$('r-harm').checked,recon=$('r-recon').checked,conf=$('r-conf').checked;
+    var tax=$('r-tax').value,bud=$('r-bud').checked,x2=$('r-x2').checked,obj=$('r-obj').checked;
+    $('r-bud').closest('label').style.display=tax==='bud'?'':'none';
+    $('r-x2').closest('label').style.display=tax==='list'?'':'none';
+    var g=[];
+    function add(name,norm,res,why){g.push({name:name,norm:norm,res:res,why:why})}
+    function miss(arr){return arr.length?'нет: '+arr.join('; '):'подходит'}
+    // ст. 75
+    var m=[];
+    if(!first)m.push('не впервые');
+    if(!conf)m.push('нет явки с повинной и содействия');
+    if(!harm)m.push('вред не заглажен');
+    if(obj)m.push('обвиняемый возражает');
+    if(!sm){add('Деятельное раскаяние','ст. 75 УК, ст. 28 УПК','check','только если прямо предусмотрено статьёй Особенной части (ч. 2 ст. 75)')}
+    else add('Деятельное раскаяние','ст. 75 УК, ст. 28 УПК',m.length?'no':'yes',m.length?miss(m):'подходит, если суд сочтёт, что лицо перестало быть общественно опасным');
+    // ст. 76
+    m=[];
+    if(!first)m.push('не впервые');
+    if(!sm)m.push('тяжкое или особо тяжкое');
+    if(!recon)m.push('нет примирения с потерпевшим');
+    if(!harm)m.push('вред не заглажен');
+    add('Примирение с потерпевшим','ст. 76 УК, ст. 25 УПК',m.length?'no':'yes',miss(m));
+    // ст. 76.2
+    m=[];
+    if(!first)m.push('не впервые');
+    if(!sm)m.push('тяжкое или особо тяжкое');
+    if(!harm)m.push('вред не заглажен');
+    add('Судебный штраф','ст. 76.2 УК, ст. 25.1 УПК',m.length?'no':'yes',miss(m));
+    // ст. 76.1
+    m=[];
+    if(tax==='none'){add('Возмещение ущерба','ст. 76.1 УК, ст. 28.1 УПК','no','нет: состав не из перечня ст. 76.1')}
+    else{
+      if(!first)m.push('не впервые');
+      if(tax==='bud'&&!bud)m.push('ущерб бюджету не возмещён полностью');
+      if(tax==='list'){if(!harm)m.push('ущерб не возмещён');if(!x2)m.push('нет двукратного возмещения в бюджет')}
+      if(obj)m.push('обвиняемый возражает');
+      add('Возмещение ущерба','ст. 76.1 УК, ст. 28.1 УПК',m.length?'no':'yes',miss(m));
+    }
+    var n=g.filter(function(x){return x.res==='yes'}).length,chk=g.filter(function(x){return x.res==='check'}).length;
+    var rows=g.map(function(x){return [x.name+' ('+x.norm+')',x.why]});
+    var fine=num('r-fine'),cap=fine>0?fine/2:250000;
+    rows.push(['Предел судебного штрафа (ст. 104.5 УК)',fine>0?rub(cap)+' (половина максимального штрафа)':rub(cap)+' (штрафа в санкции нет)']);
+    var who=stage==='pre'?'следователь с согласия руководителя или дознаватель с согласия прокурора; судебный штраф назначает суд по их ходатайству':(stage==='court'?'суд; судебный штраф допустим до ухода суда в совещательную комнату для приговора':'суд апелляции; судебный штраф допустим до ухода в совещательную комнату для решения');
+    rows.push(['Кто решает',who]);
+    var warn=[];
+    if(n===0&&chk===0)warn.push('Ни одно основание не подходит по введённым данным. Проверьте давность (ст. 78) и особые нормы Особенной части.');
+    if(n>0)warn.push('Прекращение по этим основаниям не означает, что преступления не было: это нереабилитирующие основания. Решение — право суда или следователя, а не обязанность.');
+    var names=g.filter(function(x){return x.res==='yes'}).map(function(x){return x.name});
+    var cp='Прекращение дела по нереабилитирующим основаниям, справочная проверка. Тяжесть: '+{small:'небольшая',medium:'средняя',grave:'тяжкое',special:'особо тяжкое'}[cat]+'. '+g.map(function(x){return x.name+' ('+x.norm+'): '+x.why}).join('. ')+'. Предел судебного штрафа: '+rub(cap)+'.';
+    show('r',{main:String(n)+(chk?' (+'+chk+' по спецнорме)':''),status:names.length?names.join(', '):'',ok:n>0,rows:rows,warn:warn.join(' '),copy:cp});
+  }
+
+  /* ---------- Порядок рассмотрения ---------- */
+  function calcO(){
+    var cat=$('o-cat').value,sm=(cat==='small'||cat==='medium');
+    var agree=$('o-agree').checked,vol=$('o-vol').checked,obj=$('o-obj').checked,mx=num('o-max');
+    var m=[];
+    if(!sm)m.push('тяжкое и особо тяжкое преступление не входит в ч. 1 ст. 314 УПК');
+    if(!agree)m.push('нет согласия с обвинением и ходатайства');
+    if(!vol)m.push('ходатайство не добровольное, без защитника или последствия не осознаны (п. 1–2 ч. 2 ст. 314)');
+    if(obj)m.push('возражает обвинитель или потерпевший (п. 3 ч. 2 ст. 314, ч. 6 ст. 316)');
+    var ok=m.length===0;
+    var rows=[['Категория преступления',sm?'допускает особый порядок':'не допускает']];
+    var cap=mx*2/3;
+    if(mx>0)rows.push(['Потолок наказания (2/3 от '+termStrG(mx)+')',termStrG(cap)]);
+    else rows.push(['Потолок наказания','введите максимум по санкции']);
+    rows.push(['Где заявляется ходатайство',$('o-when').value==='218'?'при ознакомлении с делом (ст. 218, ч. 2 ст. 315 УПК)':'на предварительном слушании (ст. 229, ч. 2 ст. 315 УПК)']);
+    rows.push(['Процессуальные издержки','с подсудимого не взыскиваются (ч. 10 ст. 316 УПК)']);
+    var cp='Особый порядок (гл. 40 УПК РФ): '+(ok?'условия ст. 314 соблюдены':'не применяется: '+m.join('; '))+'. '+(mx>0?'Потолок наказания по ч. 7 ст. 316 УПК РФ — две трети от '+termStrG(mx)+', то есть '+termStrG(cap)+'.':'');
+    show('o',{main:ok?'возможен':'невозможен',status:ok?'Условия ст. 314 УПК соблюдены':'',ok:ok,rows:rows,warn:ok?'':m.join('. ')+'.',copy:cp});
+  }
+
+  /* ---------- Условное осуждение ---------- */
+  function calcY(){
+    var k=$('y-kind').value,proc=parse($('y-proc').value),force=parse($('y-force').value),today=parse($('y-today').value),ts=Math.floor(num('y-ts'));
+    var bad=[];
+    if(k==='ls9')bad.push('лишение свободы свыше 8 лет: условное осуждение не назначается (ч. 1 ст. 73)');
+    if(k==='other')bad.push('такой вид наказания не входит в перечень ч. 1 ст. 73');
+    if($('y-a').checked)bad.push('преступление против половой неприкосновенности ребёнка до 14 лет (п. «а» ч. 1 ст. 73)');
+    if($('y-a1').checked)bad.push('состав из п. «а.1» ч. 1 ст. 73');
+    if($('y-b').checked)bad.push('тяжкое или особо тяжкое преступление в испытательный срок или при УДО (п. «б» ч. 1 ст. 73)');
+    if($('y-c').checked)bad.push('опасный или особо опасный рецидив (п. «в» ч. 1 ст. 73)');
+    if(bad.length){show('y',{main:'не назначается',status:'',rows:bad.map(function(b){return ['Запрет',b]}),warn:'Условное осуждение в этом случае назначить нельзя.',copy:'Условное осуждение (ст. 73 УК РФ) не назначается: '+bad.join('; ')+'.'});return}
+    var lo=6,hi=(k==='ls8')?60:36,dv=(k==='dvch');
+    var range=dv?'от 6 мес. в пределах оставшегося срока службы (ч. 3.1 ст. 73)':'от 6 мес. до '+termStrG(hi);
+    var rows=[['Допустимый испытательный срок',range]];
+    var warn=[];
+    if(!dv&&(ts<lo||ts>hi))warn.push('Испытательный срок вне пределов ч. 3 ст. 73: '+range+'.');
+    if(dv&&ts<lo)warn.push('Испытательный срок меньше 6 месяцев (ч. 3 ст. 73).');
+    if(proc===null||force===null){show('y',{main:'—',status:'Введите даты приговора.',rows:rows,warn:warn.join(' ')});return}
+    if(force<proc)warn.push('Дата вступления в силу раньше провозглашения.');
+    var end=addMonths(proc,ts);
+    var half=ts/2,hw=Math.floor(half),hd=Math.ceil((half-hw)*30);
+    var halfDate=addMonths(proc,hw)+hd*DAY;
+    rows.push(['Срок исчисляется с',fmt(force)+' (вступление в силу)']);
+    rows.push(['Зачитывается время с',fmt(proc)+' (провозглашение)']);
+    rows.push(['Отмена условного осуждения (ч. 1 ст. 74) возможна не ранее',fmt(halfDate)]);
+    rows.push(['Если продлить на максимум (ч. 2 ст. 74), срок оканчивается',fmt(addMonths(end,12))]);
+    var st=statusFor(end,today),s2=st.s;
+    if(st.ok&&today!==null){var diff=Math.round((today-end)/DAY);s2=diff===0?'Срок оканчивается сегодня':'Срок истёк '+days(diff)+' назад'}
+    var cp='Условное осуждение (ст. 73 УК РФ). Испытательный срок '+termStrG(ts)+', окончание '+fmt(end)+' (от провозглашения '+fmt(proc)+'); вступление в силу '+fmt(force)+'. Отмена по ч. 1 ст. 74 возможна не ранее '+fmt(halfDate)+'. '+range+'.';
+    show('y',{main:fmt(end),status:s2,ok:st.ok,rows:rows,warn:warn.join(' '),copy:cp});
+  }
+  $('r-godav').addEventListener('click',function(){openTab('dav')});
+  $('o-gonak').addEventListener('click',function(){openTab('nak')});
+  mkPicker('r-artbox',function(hi){setSel('r-cat',hi<=36?'small':(hi<=60?'medium':(hi<=120?'grave':'special')),calcR)});
+  mkPicker('o-artbox',function(hi){$('o-cat').value=hi<=36?'small':(hi<=60?'medium':(hi<=120?'grave':'special'));$('o-max').value=hi;calcO()});
+
   /* ---------- wiring ---------- */
-  var calcs={udo:calcU,zach:calcZ,nak:calcN,dav:calcD,sud:calcS,svo:calcV};
+  var calcs={udo:calcU,zach:calcZ,nak:calcN,dav:calcD,sud:calcS,svo:calcV,pre:calcR,ord:calcO,usl:calcY};
   document.querySelectorAll('input,select').forEach(function(el){el.addEventListener('input',function(){
     var p=el.closest('[role="tabpanel"]');if(p)calcs[p.id.slice(2)]()});el.addEventListener('change',function(){var p=el.closest('[role="tabpanel"]');if(p)calcs[p.id.slice(2)]()})});
   $('u-mode').addEventListener('change',function(){fillBase();calcU()});
@@ -763,13 +1017,13 @@ hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
     function done(s){b.textContent=s;setTimeout(function(){b.textContent=orig},1600)}
     try{navigator.clipboard.writeText(t).then(function(){done('Скопировано')},function(){done('Не удалось скопировать')})}catch(e){done('Не удалось скопировать')}})});
   function openTab(name){
-    ['udo','zach','nak','dav','sud','svo'].forEach(function(n){
+    ['udo','zach','nak','dav','sud','svo','pre','ord','usl'].forEach(function(n){
       var on=n===name;$('t-'+n).setAttribute('aria-selected',on?'true':'false');$('p-'+n).hidden=!on});
     try{history.replaceState(null,'','#'+name)}catch(e){}
   }
-  ['udo','zach','nak','dav','sud','svo'].forEach(function(n){$('t-'+n).addEventListener('click',function(){openTab(n)})});
+  ['udo','zach','nak','dav','sud','svo','pre','ord','usl'].forEach(function(n){$('t-'+n).addEventListener('click',function(){openTab(n)})});
   fillBase();$('u-base').selectedIndex=1;
-  calcU();calcZ();calcN();calcD();calcS();calcV();
+  calcU();calcZ();calcN();calcD();calcS();calcV();calcR();calcO();calcY();
   var h=(location.hash||'').slice(1);if(calcs[h])openTab(h);
 })();
 </script>
