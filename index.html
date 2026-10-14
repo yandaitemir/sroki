@@ -367,7 +367,7 @@ details.basis[open]>summary{margin-bottom:10px}
 <div class="panel" aria-live="polite">
   <h2>Результат</h2>
   <p class="say" id="n-say">—</p>
-  <div><div class="hint">Наказание в пределах</div><p class="big" id="n-main">—</p></div>
+  <div><div class="hint" id="n-cap">Наказание в пределах</div><p class="big" id="n-main">—</p></div>
   <div class="warn" id="n-warn" hidden></div>
   <details class="more" open><summary>Как это посчитано</summary>
     <dl id="n-list"></dl>
@@ -938,7 +938,10 @@ details.basis[open]>summary{margin-bottom:10px}
     var r56=chk56(ai,maxM);
     var nsay=(r56&&r56.def?r56.msg+' Если бы суд всё же назначал лишение свободы, границы такие: ':'Суд вправе назначить лишение свободы ')+main+(/\.$/.test(main)?'':'.')+(low>cap+1e-9||cap<minM-1e-9?' Это ниже низшего предела статьи: так бывает при льготных правилах (см. пояснение ниже).':'');
     if(r56&&!r56.def)warns.push(r56.msg);
-    show('n',{say:nsay,main:main,rows:rows,warn:warns.join(' '),copy:''});
+    var no56=!!(r56&&r56.def);
+    if(no56)rows.push(['Границы лишения свободы по статье (справочно)',main]);
+    show('n',{say:nsay,main:no56?'не назначается':main,rows:rows,warn:warns.join(' '),copy:''});
+    $('n-cap').textContent=no56?'Лишение свободы':'Наказание в пределах';
     $('n-steps').innerHTML=steps.map(function(x){return '<li>'+x+'</li>'}).join('');
     var base='Расчёт пределов наказания (справочный)\nСтатья: '+(ai?'ст. '+ai.art+' ч. '+ai.part+' УК РФ, '+ai.cat:'не выбрана (пределы введены вручную)')+'\nХод расчёта:\n'+steps.map(function(x,i){return (i+1)+') '+x}).join('\n')+'\n'+altTxt;
     // совокупность
